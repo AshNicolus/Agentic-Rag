@@ -1,0 +1,23 @@
+from langchain_core.prompts import ChatPromptTemplate 
+from langchain_core.runnables import RunnableSequence
+from pydantic import BaseModel, Field
+from src.models.model import llm
+
+
+class  GradeAnswer(BaseModel):
+    binary_score: bool = Field(
+        description="Answer address the question,'yes' or 'no'",
+    )
+
+structured_llm = llm.with_structured_output(GradeAnswer)
+
+system = """You are a grader assessing whether an answer addresses / resolves a question \n 
+     Give a binary score 'yes' or 'no'. Yes' means that the answer resolves the question."""
+
+answer_prompt = ChatPromptTemplate(
+    [
+        ("system",system),
+        ("human","User question \n\n {question} \n\n LLM answer: {generation}"),
+    ]
+)
+answer_grader:RunnableSequence = answer_prompt | structured_llm
