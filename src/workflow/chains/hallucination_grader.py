@@ -14,6 +14,9 @@ class GradeHallucination(BaseModel):
 
 structured_llm_grader = llm.with_structured_output(GradeHallucination)
 
+# Backwards-compatible alias for tests and other modules expecting the plural name
+GradeHallucinations = GradeHallucination
+
 system = """You are a grader assessing whether an LLM generation is grounded in / supported by a set of retrieved facts. \n 
      Give a binary score 'yes' or 'no'. 'Yes' means that the answer is grounded in / supported by the set of facts."""
 

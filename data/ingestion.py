@@ -1,21 +1,29 @@
-import os 
+"""Document ingestion and vectorstore utilities.
+
+This module contains helpers to create or load a Chroma vectorstore. It
+provides `create_vectorstore()` and a module-level `retriever` which the rest
+of the code imports to run retrievals.
+"""
+
+import os
 from dotenv import load_dotenv
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_chroma import Chroma 
+from langchain_chroma import Chroma
 from langchain_community.document_loaders import WebBaseLoader
 from src.models.model import embed_model
 
 load_dotenv()
 
+
 def create_vectorstore():
-    """Create a load vector store for document retreival."""
+    """Create or load vector store for document retrieval."""
     chroma_path = "./chroma_db"
     if os.path.exists(chroma_path) and os.listdir(chroma_path):
         print("Loading existing vector store...")
-        vectorstore  =Chroma(
+        vectorstore = Chroma(
             persist_directory=chroma_path,
             embedding_function=embed_model,
-            collection_name="rag-chroma"
+            collection_name="rag-chroma",
         )
         return vectorstore.as_retriever()
     print("Creating new vector store...")
@@ -42,5 +50,5 @@ def create_vectorstore():
     return vectorstore.as_retriever()
 
 
-retriver = create_vectorstore()
+retriever = create_vectorstore()
 

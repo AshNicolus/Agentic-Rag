@@ -1,6 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate 
 from pydantic import BaseModel, Field
-from src.models.model import llm_model
+from src.models.model import llm
 
 class  GradeDocuments(BaseModel):
     """Binary score for relevance check on retrieved documents."""
@@ -9,7 +9,7 @@ class  GradeDocuments(BaseModel):
         description="Documents are relevant to the questions,'yes' or 'no'",
     )
 
-structed_llm_grader = llm_model.with_structured_output(GradeDocuments)
+structed_llm_grader = llm.with_structured_output(GradeDocuments)
 
 system = """You are a grader assessing relevance of a retrieved document to a user question. \n 
     If the document contains keyword(s) or semantic meaning related to the question, grade it as relevant. \n

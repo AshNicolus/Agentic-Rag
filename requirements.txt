@@ -14,3 +14,5 @@ langchain-chroma
 langchain-tavily==0.1.5
 langchain_aws
 langchain_google_genai
+streamlit 
+pypdf2
